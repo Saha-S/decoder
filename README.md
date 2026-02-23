@@ -71,8 +71,3 @@ The tool prints `Error` and exits for:
 - Empty repeat string: `[5 ]`
 - Unbalanced brackets: `[5 #` or `5 #]`
 
-## Running Tests
-
-```sh
-go test ./...
-```
