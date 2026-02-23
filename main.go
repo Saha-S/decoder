@@ -4,10 +4,12 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 
 	"decoder/decoder"
 	"decoder/encoder"
+	"decoder/server"
 )
 
 func main() {
@@ -15,7 +17,19 @@ func main() {
 	flag.BoolVar(multiline, "m", false, "Process multiple lines from stdin (shorthand)")
 	encode := flag.Bool("encode", false, "Encode input into bracket notation")
 	flag.BoolVar(encode, "e", false, "Encode input into bracket notation (shorthand)")
+	serveMode := flag.Bool("server", false, "Start the web interface server")
+	flag.BoolVar(serveMode, "s", false, "Start the web interface server (shorthand)")
+	addr := flag.String("addr", ":8080", "Address for the web server (e.g. :8080)")
 	flag.Parse()
+
+	if *serveMode {
+		fmt.Printf("Art Decoder server listening on %s\n", *addr)
+		if err := http.ListenAndServe(*addr, server.NewServeMux()); err != nil {
+			fmt.Fprintf(os.Stderr, "server error: %v\n", err)
+			os.Exit(1)
+		}
+		return
+	}
 
 	if *multiline {
 		var input *os.File

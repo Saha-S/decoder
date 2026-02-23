@@ -1,6 +1,6 @@
 # art-decoder
 
-A Go command-line tool that converts encoded art data into text-based art using bracket notation.
+A Go command-line tool **and web interface** that converts encoded art data into text-based art using bracket notation.
 
 ## Setup and Installation
 
@@ -11,6 +11,42 @@ git clone <repo-url>
 cd decoder
 go build ./...
 ```
+
+## Web Interface (art-interface)
+
+Start the web server with the `--server` (or `-s`) flag:
+
+```sh
+go run . --server
+# Server listening on http://localhost:8080
+```
+
+Use `--addr` to specify a custom address:
+
+```sh
+go run . --server --addr :9000
+```
+
+Open your browser at **http://localhost:8080** to use the interface.
+
+### Interface features
+
+| Feature | Description |
+|---|---|
+| **Text input** | Paste or type an encoded / plain string |
+| **Decode mode** | Expands bracket notation → text art |
+| **Encode mode** | Compresses plain text → bracket notation (server-side) |
+| **HTTP status badge** | Displays the latest response code (`202 Accepted` / `400 Bad Request`) |
+
+### HTTP Endpoints
+
+| Method | Path | Response |
+|---|---|---|
+| `GET` | `/` | `200 OK` — main web page |
+| `POST` | `/decoder` | `202 Accepted` — result page; `400 Bad Request` — malformed input |
+| `GET` | `/decoder` | `303 See Other` — redirects to `/` |
+| `GET` | `/static/*` | `200 OK` — CSS and static assets |
+| anything else | `/*` | `404 Not Found` |
 
 ## Usage
 

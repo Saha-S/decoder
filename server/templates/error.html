@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Art Decoder ✦</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">✦ Art Decoder ✦</h1>
+    </header>
+    <main>
+      <div class="card result-card">
+        <div class="status-badge status-error">HTTP {{.StatusCode}} — {{.ErrorMsg}}</div>
+        <p style="margin-top:1.5rem;text-align:center;">
+          <a class="btn-generate" href="/" style="text-decoration:none;display:inline-block;">← Back to Home</a>
+        </p>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

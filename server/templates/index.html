@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art Decoder ✦</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">✦ Art Decoder ✦</h1>
+      <p class="subtitle">Transform encoded strings into beautiful text art</p>
+    </header>
+
+    <main>
+      <form class="card form-card" method="POST" action="/decoder">
+        <label class="field-label" for="input-field">Encoded / Plain String</label>
+        <textarea
+          id="input-field"
+          class="input-area"
+          name="input"
+          rows="4"
+          placeholder="e.g. [5 #][5 -_]-[5 #]"
+          spellcheck="false"
+        >{{if .Input}}{{.Input}}{{end}}</textarea>
+
+        <div class="mode-group">
+          <span class="field-label">Mode</span>
+          <label class="radio-label">
+            <input type="radio" name="mode" value="decode"
+              {{if or (eq .Mode "") (eq .Mode "decode")}}checked{{end}} />
+            <span>Decode</span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="mode" value="encode"
+              {{if eq .Mode "encode"}}checked{{end}} />
+            <span>Encode</span>
+          </label>
+        </div>
+
+        <button class="btn-generate" type="submit">Generate ✦</button>
+      </form>
+
+      {{if .StatusCode}}
+      <div class="status-badge {{if .IsError}}status-error{{else}}status-ok{{end}}">
+        HTTP {{.StatusCode}} — {{if .IsError}}{{.ErrorMsg}}{{else}}Accepted{{end}}
+      </div>
+      {{end}}
+
+      {{if .HasResult}}
+      <div class="card result-card">
+        <h2 class="result-title">
+          {{if eq .Mode "encode"}}Encoded Output{{else}}Decoded Art{{end}}
+        </h2>
+        <pre class="result-output">{{.Result}}</pre>
+      </div>
+      {{end}}
+    </main>
+
+    <footer>
+      <p>art-decoder interface &nbsp;|&nbsp; powered by Go</p>
+    </footer>
+  </div>
+</body>
+</html>
